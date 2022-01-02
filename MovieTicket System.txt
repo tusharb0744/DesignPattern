@@ -1,0 +1,294 @@
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+enum SeatStatus
+{
+    booked,notBooked, unavailable;
+}
+
+enum Cities
+{
+    jaipur,mumbai,delhi,banglore,ahmedabad;
+}
+
+enum ShowType
+{
+    movie,standup, openMike;
+}
+
+enum PaymentStatus
+{
+    done,failed, pending;
+}
+
+enum SeatType
+{
+    premium, delux, recliner;
+}
+
+enum HallStatus
+{
+    occupied,underservice,notavailable,free;
+}
+
+class BookMyShow
+{
+    List<City> cities;
+    List<User> users;
+    Admin admin;
+    List<MovieShow> getALlMovieshow(City c, Date d)
+    {
+
+    }
+    List<Cinema> getAllCinema(City c)
+    {
+
+    }
+}
+
+class City
+{
+    int cityid;
+    String cityName;
+    String State;
+    List<Cinema> cinemas;
+}
+
+class Cinema
+{
+    String name;
+    int id;
+    Location loation;
+    long latitude;
+    long longitude;
+    boolean isActive;
+    List<Hall> halls;
+    List<Show> shows;
+
+    List<Show> getAllShow(Date date){}
+
+}
+
+class Show
+{
+    int showid;
+    ShowType type;
+}
+
+
+class MovieShow extends Show
+{
+    int showitemid;
+    Time time;
+    Date date;
+    Movie movie;
+    Cinema cinema;
+    List<Seat> seats;
+    Hall hall;
+}
+
+class Movie
+{
+    String movieName;
+    List<Actor> actors;
+    Map<City, List<Show>> cityWiseShow;
+    Producer producer;
+    int rating; 
+    int duration;
+    boolean inThreater;
+    Date releaseDate;
+}
+
+class Time
+{
+    long start;
+    long end;
+}
+
+class Location
+{
+    String street;
+    String city;
+    String state;
+    int pin;
+    long latitude;
+    long longitude;
+
+}
+
+class Hall
+{
+    int hallid;
+    String name;
+    int capacity;
+    HallStatus hallStatus;
+}
+
+class Seat
+{
+    int id;
+    int cost;
+    SeatType type;
+    SeatStatus status;
+    Position position;
+
+}
+
+ class Position
+ {
+     int row;
+     int col;
+ }
+
+class Person
+{
+    String firstName;
+    String secondName;
+}
+
+class SystemUser extends Person
+{
+    int id;
+    Account account;
+    long mobileNo;
+    String email;
+}
+
+class Actor extends Person
+{
+    List<Movie> movies;
+}
+
+class Producer extends Person
+{
+    List<Movie> movies;
+}
+
+class Account
+{
+    String userName;
+    String password;
+}
+
+class User extends SystemUser
+{
+    Search search;
+    Booking booking;
+    List<BookingDetails> bookingdetails;
+}
+
+class Admin extends SystemUser
+{
+    Search search;
+    Booking booking;
+    boolean addShow(Show s)
+    {
+    }
+
+    Show editShow(Show s)
+    {
+
+    }
+    Show deleteShow(int showid)
+    {
+
+    }
+}
+
+class Search
+{
+    List<Show> getAllMovieShow(Movie movie, City c)
+    {
+
+    }
+    List<Show> getAllShowInCity(City city)
+    {
+    }
+    List<Show> getAllShowByActor(Actor actor)
+    {
+
+    }
+    List<Show> getAllShowByProducer(Actor actor)
+    {
+    }
+    List<Show> getAllShow(Movie movie)
+    {
+
+    }
+
+}
+
+
+class Booking
+{
+    PaymentService paymentService;
+    BookingDetails getBookingDetails(User u)
+    {
+
+    }
+    BookingDetails book(Show s)
+    {
+
+    }
+
+    BookingDetails cancel(BookingDetails bd)
+    {
+
+    }
+
+
+}
+
+abstract class PaymentService
+{
+     public abstract  Transaction makePayment();
+}
+
+class CreditCard extends PaymentService
+{
+    long number;
+    String name;
+    @Override
+    public Transaction makePayment() {
+        return null;
+    }
+}
+
+class Transaction
+{
+    Transaction id;
+    int amonunt;
+}
+
+class BookingDetails
+{
+    int bookindId;
+    Date date;
+    List<User> users;
+    List<Seat> seats;
+    Show showItem;
+    List<Notification> notification;
+    Invoice invoice;
+    Ticket ticket;
+    PaymentStatus status;
+}
+
+class Ticket
+{
+     void generateTicket()
+    {
+
+    }
+}
+
+class Invoice
+{
+    int amount;
+    int invoiceNo;
+    Date date;
+    User user;
+    Transaction t;
+}
+abstract class Notification
+{}

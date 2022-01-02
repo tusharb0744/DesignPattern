@@ -1,0 +1,247 @@
+import javax.naming.directory.SearchControls;
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+enum PaymentSatus
+{
+    pending,paid, failed;
+}
+
+enum VehicleType
+{
+    fourwheeler,twoWheeler;
+}
+
+enum ParkingType
+{
+    fourWheeler,twowheeler;
+}
+class Address
+{
+    String street;
+    String city;
+    String country;
+    int pin;
+}
+
+class ParkingSystem
+{
+    String name;
+    int id;
+    Address address;
+    List<Floor> floorList;
+    List<Enterance> enteranceList;
+    List<ExitGate> exitGateList;
+    List<Member> memberList;
+    Map<Date, List<BookingTicket>> bookingDetails;
+}
+
+
+
+class Gate
+{
+    int gateid;
+    ParkingAttendent attendent;
+
+}
+
+class Enterance extends Gate
+{
+    ParkingTicket getTicket(Vehicle vehicle)
+    {
+    }
+}
+
+class ExitGate extends Gate
+{
+    PaymentReceit payForParking(ParkingTicket ticket){};
+}
+
+class Floor
+{
+    int id;
+    boolean isFull;
+    Display display;
+    List<Slot> slotList;
+}
+
+class Display
+{
+    Map<ParkingType, Integer> emptySlots;
+    public boolean update(ParkingType pt, int unit)
+    {}
+
+}
+
+class Slot
+{
+    Location location;
+    ParkingType type;
+    Vehicle vehicleParked;
+    boolean isParked;
+    boolean reserved;
+}
+class Location
+{
+    int floor;
+    int row;
+    int col;
+}
+
+class Vehicle
+{
+    String vehicleNo;
+    VehicleType type;
+    Member member;
+    ParkingTicket ticket;
+}
+
+class Person
+{
+    String firstname;
+    String lastName;
+
+}
+
+class Guest extends Person
+{
+    Account registerUser()
+    {
+    }
+}
+
+class ParkingAttendent extends Person
+{
+    PaymentService paymentService;
+    ParkingTicket printTicket(Vehicle vehicle)
+    {}
+    PaymentReceit processPayment(ParkingTicket pt)
+    {}
+}
+
+class SystemUser extends Person
+{
+    Account acount;
+    String email;
+    int mobileNo;
+    List<Vehicle> vehicleList;
+    Map<Date, List<BookingTicket>> bookingDetails;
+}
+class Account
+{
+    String username;
+    int pin;
+    Date date;
+}
+
+class Admin extends SystemUser
+{
+    Booking booking;
+    boolean addSlot(Slot slot, Floor floor, ParkingSystem system)
+    {}
+    Slot editSlot(Slot slot,Floor floor, ParkingSystem system)
+    {}
+    Slot deleteSlot(Slot slot,Floor floor, ParkingSystem system)
+    {}
+    Floor addFloor(Floor floor, ParkingSystem system)
+    {}
+    boolean assignAttendent(Floor floor, ParkingSystem system)
+    {}
+}
+
+class Member extends SystemUser
+{
+
+    Booking booking;
+
+}
+
+class Booking
+{
+    PaymentService paymentService;
+    ReservationTicket reserve(Date date, Slot slot, Vehicle vehicle, Time start, Time end)
+    {}
+    boolean cancelReservation(ReservationTicket)
+    {}
+    List<BookingTicket> getDetails(Member member, Date date)
+    {}
+}
+
+class BookingTicket
+{
+    Date bookingDate;
+    Floor floor;
+    Slot slot;
+    Member member;
+    int amount;
+    Time start;
+    Time booked;
+
+}
+
+class ReservationTicket extends BookingTicket
+{
+    Date slotBookedFor;
+    PaymentSatus status;
+}
+
+class ParkingTicket extends BookingTicket
+{
+    boolean updateAmount(int amount)
+    {}
+}
+
+class PaymentService
+{
+    PaymentMethod method;
+    PaymentService(PaymentMethod m)
+    {
+        method = m;
+    }
+    PaymentReceit makePayment(int amount)
+    {
+    }
+}
+
+abstract class PaymentMethod
+{
+    abstract public Transaction pay(int amount);
+}
+
+class CreditCard extends PaymentMethod
+{
+    String cardno;
+    int cvv;
+    int expiry;
+
+    @Override
+    public Transaction pay(int amount) {
+        return null;
+    }
+}
+
+class Transaction
+{
+    int transactionNo;
+    int amount;
+    Date date;
+    Member member;
+}
+
+class PaymentReceit
+{
+    int receitNo;
+    Vehicle vehicle;
+    Member member;
+    Date date;
+    Time in;
+    Time out;
+    VehicleType type;
+    Slot slot;
+    Floor floor;
+
+    void print()
+    {}
+}

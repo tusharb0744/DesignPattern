@@ -1,0 +1,315 @@
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TransferQueue;
+
+enum HotelType
+{
+    threeStar,fourStar,fiveStar;
+}
+enum SentStatus
+{
+    sent,pending, failed;
+}
+
+enum Facilities
+{
+    swimmingPool, Spa, Banquet, Sallon, OAT;
+}
+
+enum RoomType
+{
+    delux, standard;
+}
+
+enum RoomStatus
+{
+    availabe,booked, inMaintenance;
+}
+enum PaymentStaus
+{
+    done,pending,failed;
+}
+
+enum Status
+{
+    done,failed,pending;
+}
+class Hotel
+{
+    String name;
+    int id;
+    Address address;
+    List<Room> room;
+    HotelType type;
+    boolean isActive;
+    Facility facilities;
+}
+
+class Address
+{
+    String street;
+    String city;
+    String State;
+    String Country;
+    float latitude;
+    float longitude;
+    int pincode;
+}
+
+class Facility
+{
+    List<Facilities> facilitiesList;
+}
+
+class Room
+{
+    int roomNo;
+    String Description;
+    RoomType type;
+    RoomStatus status;
+    List<Key> keys;
+    List<HouseKeepingLogs> logs;
+}
+
+class Key
+{
+    String keyid;
+    String barcode;
+    boolean isMaster;
+    boolean isActive;
+    Room room;
+
+    void assignKey(Room room)
+    {
+    }
+}
+
+class HouseKeepingLogs {
+    String description;
+    HouseKeeper housekeeper;
+    Date date;
+    int duration;
+
+    void addLog(Room room)
+    {
+    }
+}
+
+class Person
+{
+    String firstName;
+    String lastName;
+    String id;
+    Address address;
+}
+
+class Guest extends Person
+{
+    Search search;
+    Booking booking;
+    List<RoomBooking> roomBookings;
+
+    void checkin(RoomBooking rb)
+    {
+
+    }
+    void checkOut(RoomBooking rb) {
+
+    }
+
+    void payBill(RoomBooking rb)
+    {
+
+    }
+
+    void addRoomService()
+    {
+
+    }
+}
+
+class admin extends Person
+{
+    void addRoom(Room room)
+    {
+
+    }
+    void deleteRoom(int roomNo)
+    {
+
+    }
+    void editRoom(Room room)
+    {
+
+    }
+}
+class HouseKeeper extends Person
+{
+
+}
+class Receptionist extends Person
+{
+    Search search;
+    Booking booking;
+
+
+}
+
+class Search
+{
+    List<Room> getResult(RoomType type, Date start, Date end)
+    {
+    }
+}
+
+class Booking
+{
+    RoomBooking book(RoomType type, Guest guest)
+    {
+
+    }
+    boolean cancel(RoomBooking roomBooking)
+    {
+
+    }
+}
+
+class RoomBooking
+{
+    List<Guest> guest;
+    List<Room> rooms;
+    int orderId;
+    Duration duration;
+    List<Notification> notification;
+    PaymentStaus paymentStaus;
+    Invoice invoice;
+    RoomCharge roomCharge;
+    boolean checkin;
+    boolean checkout;
+}
+
+class Duration
+{
+    Date start;
+    Date end;
+}
+
+interface RoomCharge
+{
+    int getcost();
+}
+
+class DeluxCharge implements RoomCharge
+{
+
+    @Override
+    public int getcost() {
+        return 2000;
+    }
+}
+
+class ChargeDecorator implements RoomCharge
+{
+    RoomCharge roomCharge;
+    public ChargeDecorator(RoomCharge rc)
+    {
+        roomCharge =  rc;
+    }
+    @Override
+    public int getcost() {
+        return roomCharge.getcost();
+    }
+}
+
+class DinnerDecorator extends ChargeDecorator
+{
+    public DinnerDecorator(RoomCharge rc)
+    {
+        super(rc);
+    }
+
+    @Override
+    public int getcost() {
+        return super.getcost() + 1000;
+    }
+}
+
+
+class BarDecorator extends ChargeDecorator
+{
+    public BarDecorator(RoomCharge rc)
+    {
+        super(rc);
+    }
+
+    @Override
+    public int getcost() {
+        return super.getcost() + 2000;
+    }
+}
+
+abstract class Notification
+{
+    String content;
+    Date date;
+    SentStatus status;
+
+    public abstract boolean send();
+
+}
+
+class EmailNotification extends Notification
+{
+    String email;
+    public boolean send()
+    {
+        return true;
+    }
+}
+
+class SMSNotification extends Notification
+{
+    String number;
+    public boolean send()
+    {
+        return true;
+    }
+}
+
+class Invoice
+{
+    long invoiceNo;
+    int amount;
+    int tax;
+    Transaction transaction;
+    public Invoice(Transaction t)
+    {
+        transaction = t;
+    }
+
+    public void payBill()
+    {
+        transaction.pay(amount);
+    }
+
+}
+
+abstract class Transaction
+{
+    int amount;
+    Date date;
+    Status status;
+    public abstract boolean pay();
+}
+
+class CreditCardTransaction extends Transaction
+{
+    String number;
+    String cvv;
+    String Expity;
+
+    @Override
+    public boolean pay() {
+        return false;
+    }
+}

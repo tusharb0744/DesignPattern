@@ -1,0 +1,199 @@
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
+enum ReservationStatus
+{reserved,pending,failed;}
+enum OrderStatus
+{ cooking, pending, notAvailable}
+
+enum TableType
+{couple,family,outdoor}
+enum RestaurantType
+{Cafe,Pub, Bar,Restraurant;}
+enum SectionType
+{NorthIndian, beverages, starters,desert;}
+
+class Restaurant
+{
+    String name;
+    int id;
+    RestaurantType restaurantType;
+    List<RestaurantBranch> branchList;
+}
+
+
+class RestaurantBranch
+{
+    int branchId;
+    Address address;
+    int rating;
+    List<Waiter> waiterList;
+    List<Chef> chefList;
+    Manager manager;
+    Receptionist receptionist;
+    Menu menu;
+    List<Table> tableList;
+
+
+    List<Table> getAllBookedTables(Date date)
+    {}
+    List<Table> getAllEmptyTable()
+    {}
+}
+
+class Table
+{
+    int tableNo;
+    TableType type;
+    Order order;
+    boolean isOccupied;
+    boolean isReserved;
+    Guest guest;
+    int capacity ;
+}
+
+class Menu
+{
+    int menuNo;
+    String description;
+    List<MenuSection> menuSectionList;
+}
+
+class MenuSection
+{
+    int sectionId;
+    String description;
+    SectionType type;
+    List<MenuItem> menuItemList;
+}
+
+class MenuItem
+{
+    int itemId;
+    String description;
+    int price;
+    boolean isAvailable;
+}
+
+class Person
+{
+    String firstName;
+    String lastName;
+}
+
+class Guest extends Person
+{
+    List<ReservatonDetails> reservatonDetails;
+}
+
+class Employee extends Person
+{
+    int employeeId;
+    String email;
+}
+
+class Waiter extends Employee
+{
+    List<Order> orderList;
+
+    boolean createOrder(Order order)
+    {
+    }
+    boolean addMeal(Order order, Meal meal)
+    {
+    }
+    boolean editMeal(Order order, Meal meal)
+    {}
+    boolean deleteMeal(Order order, Meal meal)
+    {}
+    
+    Bill check(Order order)
+    {
+        
+    }
+}
+
+class Receptionist extends Employee
+{
+    ReservationDetails createReservation(Date date, List<Guest> guests, Time time, TableType type)
+    {}
+    boolean cancelReservation(ReservationDetails rd)
+    {}
+    ReservationDetails updateReservationDetails(Date date, List<Guest> guests, Time time, TableType type)
+    {}
+}
+
+class Chef extends Employee
+{
+
+}
+class Manager extends Employee
+{
+    boolean addMenuSection(Menu menu, MenuSection section)
+    {}
+    boolean addMenuItem(MenuSection section, MenuItem)
+    {}
+    boolean addMenu(RestaurantBranch branch, Menu menu)
+    {
+
+    }
+    boolean addEmployee(Employee e, RestaurantBranch b)
+    {
+    }
+
+}
+
+class Cashier extends Employee
+{
+
+    boolean payBill(Bill bill)
+    {
+    }
+}
+
+class Bill
+{
+    PaymentService service;
+    int amount;
+    int billNo;
+    Table table;
+    Waiter waiter;
+    Guest guest;
+    List<Meal> mealList;
+    
+}
+
+
+class Meal
+{
+    MenuItem item;
+    int quantity;
+}
+
+class Order
+{
+    int orderid;
+    List<Meal> mealList;
+    Table table;
+    Guest guest;
+    Waiter waiter;
+    OrderStatus status;
+}
+
+
+
+class ReservationDetails
+{
+    int reservationId;
+    Date reservationDate;
+    Date reservationfor;
+    List<Guest> guest;
+    Table table;
+    Time time;
+    ReservationStatus status;
+    List<Notification> notificationList;
+}
+
+
+
+

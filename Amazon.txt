@@ -1,0 +1,231 @@
+import javax.management.Notification;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+enum ShipmentStatus
+{
+    packed,shipped,intransit,delivered;
+}
+
+enum OrderStatus
+{
+   placed,incart,failed,ordered;
+}
+enum PaymetStatus
+{
+    done,failed,pending;
+}
+
+enum AddressType
+{
+    work,home;
+}
+
+class Amazon
+{
+    Date lastUpdated;
+    Map<String, List<Product>> productNames;
+    Map<ProductCategory, List<Product>> productCategory;
+}
+
+class Product
+{
+    int productid;
+    String productName;
+    String description;
+    int price;
+    int availableQuantity;
+    ProductCategory productCategory;
+
+    int getAvailableQuantity()
+    {
+
+    }
+    void updatePrice(int newprice)
+    {
+
+    }
+}
+
+class ProductCategory
+{
+    String name;
+    String description;
+}
+
+class Customer
+{
+    ShoppingCart shoppingCart;
+    public Customer(ShoppingCart sc)
+    {
+        shoppingCart = sc;
+    }
+    public ShoppingCart getShoppingCart()
+    {
+        return shoppingCart;
+    }
+
+    public Item addItem(Item item)
+    {
+
+    }
+    public boolean removeItem(Item item)
+    {
+
+    }
+    public Item editItem(Item item)
+    {
+
+    }
+}
+
+class Guest extends Customer
+{
+    public Guest(ShoppingCart sc) {
+        super(sc);
+    }
+
+    public Account createAccount()
+    {
+
+    }
+
+
+}
+
+class User extends Customer
+{
+    Account account;
+    List<ProductReview> productReview;
+    public User(ShoppingCart sc) {
+        super(sc);
+    }
+    boolean addReview(ProductReview review)
+    {
+    }
+
+}
+class ProductReview
+{
+    String rating;
+    String Description;
+    Product product;
+    User user;
+}
+class Buyer extends User{
+
+    Order order;
+    public Buyer(ShoppingCart sc) {
+        super(sc);
+    }
+    OrderStatus placeOrder()
+    {
+
+    }
+}
+
+class Account {
+    int accountNo;
+    String username;
+    String password;
+    String Email;
+    long mobileNo;
+    List<Address> address;
+    List<PaymentMethods> paymentMethods;
+ }
+
+ class Address {
+     String Street;
+     String City;
+     String State;
+     String Country;
+     AddressType type;
+ }
+
+class Item {
+    Product produce;
+    int quantity;
+}
+
+class ShoppingCart {
+    List<Item> items;
+    double cartValue;
+
+    void addItem(Item item)
+    {
+
+    }
+    boolean deleteItem(Item item)
+    {
+
+    }
+
+    Item editItem(Item item)
+    {
+
+    }
+    List<Item> getItem()
+    {
+
+    }
+    double getCartValue()
+    {
+
+    }
+
+    void checkOut()
+    {
+
+    }
+
+}
+
+class Order
+{
+    int orderId;
+    List<Item> items;
+    User user;
+    Date date;
+    int amount;
+    List<OrderLog> orderLogs;
+    Shipment shipment;
+    Payment payment;
+    List<Notification> notification;
+    void placeOrder()
+    {
+    }
+    OrderStatus trackOrder()
+    {
+    }
+    PaymetStatus makePayment()
+    {
+    }
+    ShipmentStatus sendForShipment()
+    {
+
+    }
+    void addOrderLogs(OrderLog)
+    {
+    }
+}
+
+class OrderLog
+{
+    Date date;
+    String content;
+    OrderStatus status;
+}
+
+class Shipment
+{
+    Date date;
+    int shipmentid;
+    Date dispath;
+    Date estimatedarrival;
+    List<Notification> notificationlog;
+    String shipmentMethod;
+    void addNotificationLog(Notification)
+    {
+    }
+}

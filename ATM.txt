@@ -1,0 +1,227 @@
+import jdk.incubator.foreign.Addressable;
+
+import java.beans.Customizer;
+import java.util.Date;
+import java.util.List;
+
+interface BankService
+{
+    boolean validCustomer(String pin, Card info);
+    User getUserdDetails(Card info);
+    boolean makeTransaction(Transaction transaction);
+}
+
+abstract class Bank implements BankService
+{
+    String name;
+    int swiftCode;
+    String ifsc;
+    Address address;
+    List<ATM> atmlist;
+    List<Account> accountList;
+
+}
+
+class BankA extends Bank
+{
+    @Override
+    public boolean validCustomer(String pin, Card card) {
+        return false;
+    }
+
+    @Override
+    public User getUserdDetails(Card card) {
+        return null;
+    }
+
+    @Override
+    public boolean makeTransaction(Transaction transaction) {
+        return false;
+    }
+}
+
+class User
+{
+    String name;
+    int mobileNo;
+    Address address;
+    List<Account> account;
+
+
+    Transaction makeTransaction()
+    {
+    }
+}
+
+class Address
+{
+    String street;
+    String city;
+    String state;
+    String country;
+    int pin;
+}
+
+class Account
+{
+    int accountNo;
+    int totoalBalance;
+    List<Card> card;
+    List<Transaction> transactionList;
+}
+
+class SavingAccount extends Account
+{
+    int withDrawLimit;
+
+}
+class CurrentAccount extends Account
+{
+    int cuurentWithDrawLimit;
+}
+
+class Card
+{
+    CardType cardtype;
+    Date issueDate;
+    int cardNo;
+    int expiry;
+    int cvv;
+    Bank bank;
+}
+
+class ATM
+{
+    int atmid;
+    Address address;
+    int availableAmount;
+    Map<Denomination, Integer > availablenotes;
+    CardReader cardReader;
+    KeyBoard keyBoard;
+    CashDepositer depositer;
+    Display display;
+    CashDispencer dispencer;
+    BankService service;
+    Card card;
+
+
+
+    void validate()
+    {
+        card = cardReader.readCard();
+        String pin = keyBoard.getInput();
+        service.validCustomer(pin,card);
+
+        if(card.bank.name=="A")
+        {
+            service = new BankServiceFactoryA().getBankService();
+        }
+
+    }
+
+    boolean makeTrans(Transaction transaction)
+    {
+        service.makeTransaction(transaction);
+    }
+}
+
+
+abstract class BankServiceFactory
+{
+    BankService bankService;
+    abstract BankService createBankSercvice();
+    void serviceCreate()
+    {
+        bankService = createBankSercvice();
+    }
+    public BankService getBankService() {
+        serviceCreate();
+        return bankService;
+    }
+}
+
+class BankServiceFactoryA extends BankServiceFactory
+{
+    @Override
+    BankService createBankSercvice() {
+        return new BankA();
+    }
+}
+
+class CashDepositer
+{
+
+}
+
+class Display
+{
+    void showMessage(String message)
+    {}
+}
+class KeyBoard
+{
+    String getInput()
+    {}
+}
+
+class CardReader
+{
+    Card readCard()
+    {
+        return null;
+    }
+}
+
+class CashDispencer
+{
+    boolean dispenceCash(int amonunt)
+    {
+
+    }
+}
+
+abstract class Transaction
+{
+    int transactionid;
+    Date date;
+    int amount;
+    Account source;
+    abstract boolean makeTransaction();
+}
+
+class Deposit extends Transaction
+{
+
+    @Override
+    boolean makeTransaction() {
+        return false;
+    }
+}
+
+class WithDraw extends Transaction
+{
+
+    @Override
+    boolean makeTransaction() {
+        return false;
+    }
+}
+
+class Transfer extends Transaction
+{
+    Account destination;
+
+    @Override
+    boolean makeTransaction() {
+        return false;
+    }
+}
+class CheckDeposit extends Deposit
+{
+    String checkNo;
+}
+
+class CashDeposit extends Deposit
+{
+
+}

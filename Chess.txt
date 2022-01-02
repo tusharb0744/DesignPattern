@@ -1,0 +1,163 @@
+import java.util.List;
+
+enum WarriorType
+{black,white;}
+
+enum PlayerColor
+{
+    black,white;
+}
+
+interface Mover
+{
+    boolean makeMove(Warrior w, Box b);
+    boolean restart();
+    boolean check();
+}
+
+class Chess implements  Mover
+{
+    Board board;
+    Player whiteplayer;
+    Player blackplayer;
+    RegenerateFactory factory;
+    @Override
+    public boolean makeMove(Warrior w, Box b) {
+        return false;}
+
+    @Override
+    public boolean restart() {
+        return false;
+    }
+
+    @Override
+    public boolean check() {
+        return false;
+    }
+
+    public void assignPlayerRandomly(User one, User two)
+    {
+        whiteplayer.user = one;
+        blackplayer.user = two;
+    }
+}
+
+class Board
+{
+    Box box[][] = new Box[8][8];
+}
+
+class Box
+{
+    int x;
+    int y;
+    Warrior warrior;
+}
+
+
+class Player
+{
+    User user;
+    List<Transaction> transactionList;
+    PlayerColor type;
+    void restart()
+    {
+
+    }
+    Transaction makeMove(Warrior w, Box b)
+    {
+
+    }
+    void resign()
+    {
+    }
+}
+
+abstract class Warrior
+{
+    int id;
+    int isAlive;
+    WarriorType warriorType;
+    public abstract boolean move();
+}
+
+
+class King extends Warrior
+{
+    @Override
+    public boolean move() {
+        return false;
+    }
+}
+class Queen extends Warrior
+{
+    @Override
+    public boolean move() {
+        return false;
+    }
+}
+class Camel extends Warrior
+{
+    @Override
+    public boolean move() {
+        return false;
+    }
+}
+
+class Horse extends Warrior
+{
+    @Override
+    public boolean move() {
+        return false;
+    }
+}
+
+class Elephant extends Warrior
+{
+    @Override
+    public boolean move() {
+        return false;
+    }
+}
+
+class Soldier extends Warrior
+{
+    @Override
+    public boolean move() {
+        return false;
+    }
+}
+
+class User
+{
+    String name;
+}
+
+
+abstract class RegenerateFactory
+{
+    abstract Warrior generate();
+    Warrior w;
+    Warrior initialize()
+    {
+        w = generate();
+        return w;
+    }
+}
+
+class QueenRegenrateFactory extends RegenerateFactory
+{
+    @Override
+    Warrior generate() {
+        return null;
+    }
+}
+
+class Transaction
+{
+    Box from;
+    Box to;
+    Warrior warrior;
+    Warrior killed;
+    boolean iscastingMove;
+}	

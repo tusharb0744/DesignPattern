@@ -1,0 +1,257 @@
+import java.util.Date;
+import java.util.List;
+
+enum BookType
+{
+    science,magzine,maths, novel;
+}
+enum Status
+{
+    reserved,issued,not_available;
+}
+
+enum NotiStatus
+{
+    sent,pending, failed;
+}
+
+enum BookingType
+{
+    reserve,issue;
+}
+
+enum ReservationStatus
+{
+    reserved,pending,failed;
+}
+
+
+class Library
+{
+    String name;
+    int id;
+    Address address;
+    List<BookItem> book;
+
+
+    List<Member> member;
+    Receptionist receptionist;
+    Admin admin;
+
+    //it will come here only na?
+    List<Member> getAllIssuer(Book b)
+    {
+
+    }
+    List<Book> getAllIssuedBook(Member m)
+    {
+
+    }
+
+}
+
+class Address
+{
+    String street;
+    String city;
+    String state;
+    String country;
+    int zipcode;
+    double latitude;
+    double longitude;
+}
+
+class Book
+{
+    String title;
+    BookType type;
+    List<Author> authors;
+    String Publisher;
+    int totalCopies;
+    int issuedNo;
+    int reserved;
+    int notAvailable;
+    int cost;
+}
+
+class BookItem extends Book{
+    //doubt on id and barcode
+    int id;
+    Rack rack;
+    Status status;
+    String barcode;
+    Person issuer;
+    //should i write issue date hre
+}
+
+class Rack
+{
+    int number;
+    int shelf;
+}
+
+class Person
+{
+    String firstName;
+    String lastName;
+}
+
+class Account
+{
+    long long accountNo;
+    String username;
+    String password;
+}
+
+class SystemUser
+{
+    Account account;
+    int id;
+    long mobileNumber;
+    String email;
+    Address address;
+
+}
+
+class Member extends SystemUser
+{
+    //how are these initialized?
+    Search search;
+    Booking booking;
+    List<BookingDetails> bookingDetails;
+}
+
+class Admin extends SystemUser
+{
+    //is has to access the library object?
+    boolean addBook(BookItem book)
+    {
+    }
+    BookItem editBook(BookItem book)
+    {
+    }
+    BookItem remove(int bookid)
+    {
+    }
+}
+
+class Receptionist extends SystemUser
+{
+    Search search;
+    Booking booking;
+}
+
+class Booking
+{
+    FineService fineService;
+    ReservstionBookingDetails reserve(Member m, BookItem book)
+    {
+
+    }
+    void returnBook(IssueBookingDetails details)
+    {
+    }
+    void cancelReservation(ReservstionBookingDetails details)
+    {
+    }
+
+    IssueBookingDetails issue(Member m, BookItem book)
+    {
+
+    }
+}
+
+class FineService
+{
+    Transaction transaction;
+    Fine calculateFine()
+    {
+    }
+    boolean payFine(Fine f)
+    {
+
+    }
+}
+class Fine
+{
+    int fineId;
+    int amount;
+    int daysExcedeed;
+
+}
+
+class Author extends Person{
+    List<Book> books;
+    public List<Book> getAllBooks()
+    {
+        return books;
+    }
+}
+
+class Search
+{
+    //how this will accescs all books
+    List<BookItem> search(Author author)
+    {
+    }
+    List<BookItem> search(String title)
+    {
+    }
+    List<BookItem> search(BookType type)
+    {
+    }
+}
+
+class BookingDetails
+{
+    int bookingId;
+    Date date;
+    BookItem book;
+    Person user;
+    BookingType type;
+    List<Notification> notifications;
+}
+
+class ReservstionBookingDetails extends BookingDetails
+{
+    Date expectedIssueDate;
+    ReservationStatus status;
+}
+
+class IssueBookingDetails extends BookingDetails
+{
+    Date dueDate;
+}
+
+abstract class Notification
+{
+    Date date;
+    String content;
+    NotiStatus status;
+
+    public void addNotification(BookingDetails rb)
+    {
+        rb.notifications.add(this);
+    }
+    public abstract boolean send();
+}
+
+abstract class Transaction
+{
+    int amount;
+    Date date;
+    Status status;
+    public abstract boolean pay();
+}
+
+class CreditCardTransaction extends Transaction
+{
+    String number;
+    String cvv;
+    String Expity;
+
+    @Override
+    public boolean pay() {
+        return false;
+    }
+}
